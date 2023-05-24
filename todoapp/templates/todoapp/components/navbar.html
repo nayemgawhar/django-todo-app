@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'index' %}">Todo App</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a
+            class="nav-link{% if request.path == '/' %} active{% endif %}"
+            href="{% url 'index' %}"
+            >My Todos</a
+          >
+        </li>
+        {% if perms.todo.add_view %}
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == '/all-todos/' %} active{% endif %}" href="{% url 'all-todos' %}">All Todos</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == '/change-password/' %} active{% endif %}" href="{% url 'change-password' user.id %}">Change Password</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">
+            <span class="badge rounded-pill bg-light text-dark p-2">{{ user.username | upper | first }}</span>
+            <i class="fa fa-sign-out text-white" aria-hidden="true"></i>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == '/login/' %} active{% endif %}" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == '/register/' %} active{% endif %}" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
